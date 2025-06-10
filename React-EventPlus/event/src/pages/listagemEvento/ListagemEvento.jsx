@@ -8,7 +8,7 @@ import { useState, useEffect, } from "react";
 import Swal from 'sweetalert2'
 import api from "../../Services/services";
 import { format } from "date-fns";
-import Modal from "../../components/Modal/Modal";
+import Modal from "../../components/modal/Modal";
 
 const ListagemEventos = (props) => {
 
@@ -20,7 +20,7 @@ const ListagemEventos = (props) => {
     const [modalAberto, setModalAberto] = useState(false)
 
     const [filtro, setFiltro] = useState(["todos"])
-    const [usuarioId, setUsuarioId] = useState("B2381F43-9D74-400D-B3ED-FD05D20E9885")
+    const [usuarioId, setUsuarioId] = useState("1EDE8EA0-32B4-45FD-B9D2-A7AB4FC2ACD9")
 
     async function listarEventos() {
         try {
@@ -52,19 +52,17 @@ const ListagemEventos = (props) => {
         listarEventos();
     }, [])
 
+    function fecharModal() {
+        setModalAberto(false);
+        setDadosModal({})
+        setTipoModal("")
+    }
     function abrirModal(tipo, dados) {
         //Tipo de modal, dados do modal 
         setModalAberto(true)
         setDadosModal(dados);
         setTipoModal(tipo);
     }
-
-    function fecharModal() {
-        setModalAberto(false);
-        setDadosModal({})
-        setTipoModal("")
-    }
-
     async function manipularPresenca(idEvento, presenca, IdPresencaEvento) {
         console.log("chamando manipular");
         console.log('idEvento:', idEvento);
@@ -119,11 +117,11 @@ const ListagemEventos = (props) => {
                             value={props.valorSelect}
                             onChange={(e) => setFiltro(e.target.value)}
                         >
-                            <option value="Todos" selected>Todos os Eventos</option>
+                            <option value="todos" selected>Todos os Eventos</option>
 
-                            <option value="Futuros" selected>Somente Futuros</option>
+                            <option value="futuros" selected>Somente Futuros</option>
 
-                            <option value="Passados" selected>Somente Passados</option>
+                            <option value="passados" selected>Somente Passados</option>
 
 
                         </select>
@@ -144,7 +142,7 @@ const ListagemEventos = (props) => {
                                 {listaEvento.length > 0 ? (
                                     filtrarEventos() && filtrarEventos().map((item) => (
 
-                                        <tr key={item.idPresencaEvento}className="item_listaEventos">
+                                        <tr key={item.idPresencaEvento} className="item_listaEventos">
                                             <td data-cell="Nome">{item.nomeEvento}</td>
                                             <td data-cell="Data">{format(item.dataEvento, "dd/MM/yyyy")}</td>
                                             <td data-cell="Tipo Evento">{item.tiposEvento.tituloTipoEvento}</td>

@@ -15,7 +15,7 @@ const CadastroEvento = () => {
     const [listaTipoEvento, setListaTipoEvento] = useState([])
     const [dataevento, setDataEvento] = useState("");
     const [descricao, setDescricao] = useState("");
-    const [instituicao, setInstituicao] = useState("B4F736FD-96F5-48EE-86F5-9B9AA85D716A");
+    const [instituicao, setInstituicao] = useState("A26B173F-8CFD-4499-A3A5-2DE5268CFF84");
 
     function alertar(icone, mensagem) {
         const Toast = Swal.mixin({

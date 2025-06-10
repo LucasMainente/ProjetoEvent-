@@ -33,7 +33,7 @@ namespace webapi.event_.Controllers
 
                 if (eventoBuscado == null)
                 {
-                    return NotFound("Evento não encontrado")
+                    return NotFound("Evento não encontrado");
                 }
 
                 if(eventoBuscado.DataEvento >= DateTime.UtcNow)

@@ -12,16 +12,16 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 //configuração do Azure Content Satefy
-var endpoint = builder.Configuration["AzureContentSafety:Endpoint"];
-var apiKey = builder.Configuration["AzureContentSafety:ApiKey"];
+var endpoint = builder.Configuration["https://moderatorservicelucas.cognitiveservices.azure.com/"];
+var apiKey = builder.Configuration["BS0pXshKeNijb5UpB8p1Iyjg58ImKqGtcoZgeSvfUPU9fRkbKk0vJQQJ99BDACYeBjFXJ3w3AAAHACOGLMvb"];
 
-if (string.IsNullOrEmpty(endpoint) || string.IsNullOrEmpty(apiKey))
-{
-    throw new InvalidOperationException("Azure Content Safety: Endpoint ou API Key nao foram configurados");
-}
+////if (string.IsNullOrEmpty(endpoint) || string.IsNullOrEmpty(apiKey))
+//{
+//    throw new InvalidOperationException("Azure Content Safety: Endpoint ou API Key nao foram configurados");
+//}
 
-var client = new ContentSafetyClient(new Uri(endpoint), new AzureKeyCredential(apiKey));
-builder.Services.AddSingleton(client);
+//var client = new ContentSafetyClient(new Uri(endpoint), new AzureKeyCredential(apiKey));
+//builder.Services.AddSingleton(client);
 
 
 builder.Services // Acessa a coleção de serviços da aplicação (Dependency Injection)

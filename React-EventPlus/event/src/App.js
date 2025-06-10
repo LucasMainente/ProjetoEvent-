@@ -1,7 +1,7 @@
 //chamar as telas do index.js
 import { Route } from 'react-router-dom';
 import './App.css';
-import Rotas from "./Routes/routes"
+import Rotas from "./routes/Routes"
 
 
 function App() {
