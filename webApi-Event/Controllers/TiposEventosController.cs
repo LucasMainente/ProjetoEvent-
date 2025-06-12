@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using webapi.event_.Domains;
 using webapi.event_.Interfaces;
@@ -82,7 +83,7 @@ namespace webapi.event_.Controllers
             {
                 _tiposEventoRepository.Deletar(id);
 
-                return NoContent();
+                return NoContent(); 
             }
             catch (Exception e)
             {

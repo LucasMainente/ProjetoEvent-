@@ -4,7 +4,8 @@ import Comentario from "../../assents/img/comentario.png"
 import Decricao2 from "../../assents/img/informacoes2.png";
 import Toggle from "../../components/toggle/Toggle";
 import "./ListagemEvento.css";
-import { useState, useEffect, } from "react";
+import { useState, useEffect } from "react";
+import { useAuth } from './../../contexts/AuthContext'
 import Swal from 'sweetalert2'
 import api from "../../Services/services";
 import { format } from "date-fns";
@@ -12,25 +13,31 @@ import Modal from "../../components/modal/Modal";
 
 const ListagemEventos = (props) => {
 
-    const [listaEvento, setListaEvento] = useState([])
-    // const [verEvento, setVerEventos] = useState([])
-    const [tipoModal, setTipoModal] = useState("")
-    const [dadosModal, setDadosModal] = useState([])
+    const [listaEvento, setListaEvento] = useState([]);
+    // const [verEvento, setVerEventos] = useState([]);
+    const [tipoModal, setTipoModal] = useState("");
+    const [dadosModal, setDadosModal] = useState([]);
 
-    const [modalAberto, setModalAberto] = useState(false)
+    const [modalAberto, setModalAberto] = useState(false);
 
-    const [filtro, setFiltro] = useState(["todos"])
-    const [usuarioId, setUsuarioId] = useState("1EDE8EA0-32B4-45FD-B9D2-A7AB4FC2ACD9")
+    const [filtro, setFiltro] = useState(["todos"]);
+
+    const {usuario} = useAuth();
+    // const [usuarioId, setUsuarioId] = useState("1EDE8EA0-32B4-45FD-B9D2-A7AB4FC2ACD9")
 
     async function listarEventos() {
         try {
             //pego o eventos em geral
             const resposta = await api.get("eventos");
+
             const todosOsEventos = resposta.data;
-            const respostaPresencas = await api.get("PresencasEventos/ListarMinhas/" + usuarioId)
+
+            const respostaPresencas = await api.get("PresencasEventos/ListarMinhas/" + usuario.usuarioId)
+
             const minhasPresencas = respostaPresencas.data;
 
             const eventosComPresencas = todosOsEventos.map((atualEvento) => {
+                
                 const presenca = minhasPresencas.find(p => p.idEvento === atualEvento.idEvento);
                 return {
                     ...atualEvento,
@@ -49,7 +56,7 @@ const ListagemEventos = (props) => {
 
 
     useEffect(() => {
-        listarEventos();
+        listarEventos();    
     }, [])
 
     function fecharModal() {
@@ -80,7 +87,7 @@ const ListagemEventos = (props) => {
                 Swal.fire('Confirmado!', 'Sua presença foi confirmada.', 'success');
             } else {
                 // Cria nova presença
-                await api.post("PresencasEventos", { situacao: true, idUsuario: usuarioId, idEvento: idEvento });
+                await api.post("PresencasEventos", { situacao: true, idUsuario: usuario.usuarioId, idEvento: idEvento });
                 Swal.fire('Confirmado!', 'Sua presença foi confirmada.', 'success');
             }
         } catch (error) {

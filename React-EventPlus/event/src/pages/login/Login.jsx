@@ -3,18 +3,21 @@ import Logo from "../../assents/img/logo1.svg";
 import Banner from "../../assents/img/fundo_login.png"
 import api from './../../Services/services'
 import "./Login.css";
-import { eachMonthOfInterval } from "date-fns";
 import { useState } from "react";
 import secureLocalStorage from "react-secure-storage";
+import { useAuth } from './../../contexts/AuthContext'
 
-import {userDecodeToken} from './../../auth/Auth'
+import { userDecodeToken } from './../../auth/Auth'
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-
+    const { setUsuario } = useAuth();
     const [email, setEmail] = useState("");
     const [senha, setSenha] = useState("");
+
     const navigate = useNavigate();
+
+
     async function realizarAutenticacao(e) {
         e.preventDefault();
         // console.log(email, senha);
@@ -31,14 +34,21 @@ const Login = () => {
 
                 const token = resposta.data.token;
 
-                if(token){
+                if (token) {
                     const tokenDecodificado = userDecodeToken(token);
 
+                    setUsuario(tokenDecodificado);
                     secureLocalStorage.setItem("tokenLogin", JSON.stringify(tokenDecodificado));
+                    // console.log("O tipo de usuario é");
 
-                    if(tokenDecodificado.tipoUsuario === "aluno"){
-                         navigate("/ListagemEvento")
-                    }else{
+                    console.log(tokenDecodificado.tipoUsuario)
+
+                    if (tokenDecodificado.tipoUsuario === "Común") {
+
+                        navigate("/ListagemEvento")
+                    } else {
+                        console.log("Usuairo entrou");
+
                         navigate("/Eventos")
                     }
                 }
@@ -51,7 +61,7 @@ const Login = () => {
             alert("Por favor preencha os campos para realizar o login");
 
         }
-    } 
+    }
 
     return (
         <main className="mae_de_todas">
